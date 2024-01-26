@@ -20,7 +20,7 @@ app.get('/about', (req, res) => {
     res.sendFile(__dirname + '/public/html/about.html');
 })
 app.get('/admin', (req, res) => {
-    res.sendFile(__dirname + '/public/html/admin.html');
+    res.sendFile(__dirname + '/public/html/not_admin.html');
 })
 app.get('/contact', (req, res) => {
     res.sendFile(__dirname + '/public/html/contact.html');
