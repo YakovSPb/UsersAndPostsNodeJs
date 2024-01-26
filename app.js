@@ -25,6 +25,10 @@ app.get('/admin', (req, res) => {
 app.get('/contact', (req, res) => {
     res.sendFile(__dirname + '/public/html/contact.html');
 })
+app.get('/cabinet', (req, res) => {
+
+})
+
 app.get('/login', (req, res) => {
     res.sendFile(__dirname + '/public/html/login.html');
 })
