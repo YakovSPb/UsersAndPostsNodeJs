@@ -1,10 +1,12 @@
 const express = require('express')
 const http = require
+const https = require('follow-redirects').https;
 const fs = require("fs")
 const path = require("path")
 const url = require('url')
 const userRouter = require('./routes/user.routes')
 const postRouter = require('./routes/post.routes')
+const authRouter = require('./routes/auth.routes')
 
 const PORT = process.env.PORT || 8080
 
@@ -12,7 +14,9 @@ const app = express()
 app.use(express.json())
 app.use('/api', userRouter)
 app.use('/api', postRouter)
+app.use('/api', authRouter)
 app.use(express.static('public'));
+app.use(express.json())
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/public/html/main.html');
 })
@@ -31,6 +35,9 @@ app.get('/cabinet', (req, res) => {
 
 app.get('/login', (req, res) => {
     res.sendFile(__dirname + '/public/html/login.html');
+})
+app.get('/register', (req, res) => {
+    res.sendFile(__dirname + '/public/html/register.html');
 })
 app.use(function(req, res, next) {
     res.status(404);
