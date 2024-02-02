@@ -1,15 +1,57 @@
 const db = require('../db')
 const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
 class AuthController {
     async loginGet(req, res) {
-        res.send('loginGet')
-        // const {name, surname} = req.body
+        const {name, surname} = req.body
         // const newPerson = await db.query('INSERT INTO person (name, surname) values($1, $2) RETURNING *', [name, surname])
         // res.json(newPerson.rows[0])
     }
     async loginPost(req, res) {
+        const {email, password} = req.body
+        try {
+            const user = await db.query('SELECT * FROM person where email = $1', [email])
+            if(!user.rows.length){
+                res.status(404).send('user not found')
+                return
+            }
+
+            const isValidPass = await bcrypt.compare(password,user.rows[0].password)
+
+            if(!isValidPass){
+                res.status(404).send('wrong login or password')
+                return
+            }
+
+            const token = jwt.sign(
+            {
+                _id: user.rows[0].id
+            },
+            'secret123',
+                {
+                    expiresIn: '30d'
+                }
+            )
+            const { passwordHash, ...usertData }  =user.rows[0];
+
+            res.status(201).json({
+                ...usertData,
+                token
+            });
+        } catch(err) {
+            console.log('err',err)
+            res.status(500).send('failed to authorize')
+        }
 
 
+        // const token = jwt.sign({
+        //     email: req.body.email,
+        //     password: req.body.password
+        // })
+        // res.json({
+        //     success: true,
+        //     token,
+        // })
         // const {name, surname} = req.body
         // const newPerson = await db.query('INSERT INTO person (name, surname) values($1, $2) RETURNING *', [name, surname])
         // res.json(newPerson.rows[0])
