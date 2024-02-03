@@ -9,6 +9,11 @@ const postRouter = require('./routes/post.routes')
 const authRouter = require('./routes/auth.routes')
 const cookieParser = require('cookie-parser')
 const cors = require('cors')
+const checkAuth = (req, res, next) => {
+    const token = req.headers.authorization
+
+    console.log(token)
+}
 
 const PORT = process.env.PORT || 8080
 
@@ -32,6 +37,15 @@ app.use(express.static('public'));
 //
 // })
 
+ // app.get('/auth/me', checkAuth, (req, res) => {
+ //    try {
+ //        res.json({
+ //            success: true
+ //        })
+ //    } catch (err) {
+ //
+ //    }
+ // })
 
 // app.get('/', (req, res) => {
 //     res.sendFile(__dirname + '/public/html/main.html');

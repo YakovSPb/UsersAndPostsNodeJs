@@ -32,7 +32,7 @@ class AuthController {
                     expiresIn: '30d'
                 }
             )
-            const { passwordHash, ...usertData }  =user.rows[0];
+            const { passwordHash, ...usertData }  = user.rows[0];
 
             res.status(201).json({
                 ...usertData,
@@ -80,6 +80,24 @@ class AuthController {
             res.status(400).send('error, user not created')
         }
     }
+    async authMe(req, res) {
+           try {
+               const user = await db.query('SELECT * FROM person where id = $1', [req.userId])
+
+               if(!user){
+                   return res.status(404).json({
+                       message: 'user not found'
+                   })
+               }
+
+               const { passwordHash, ...usertData }  = user.rows[0];
+
+               res.status(201).json(usertData);
+           } catch (err) {
+               res.status(500).send('access denied')
+           }
+    }
+
 }
 
 module.exports = new AuthController()
