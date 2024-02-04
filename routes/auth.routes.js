@@ -5,7 +5,6 @@ const checkAuth = require("../utils/checkAuth");
 
 router.get('/singup', authController.signUpGet)
 router.post('/singup', authController.signUpPost)
-router.get('/login', authController.loginGet)
 router.post('/login', authController.loginPost)
 router.get('/auth/me', checkAuth, authController.authMe)
 module.exports = router

@@ -2,11 +2,6 @@ const db = require('../db')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 class AuthController {
-    async loginGet(req, res) {
-        const {name, surname} = req.body
-        // const newPerson = await db.query('INSERT INTO person (name, surname) values($1, $2) RETURNING *', [name, surname])
-        // res.json(newPerson.rows[0])
-    }
     async loginPost(req, res) {
         const {email, password} = req.body
         try {
@@ -90,9 +85,9 @@ class AuthController {
                    })
                }
 
-               const { passwordHash, ...usertData }  = user.rows[0];
+               const { passwordHash, ...userData }  = user.rows[0];
 
-               res.status(201).json(usertData);
+               res.status(201).json(userData);
            } catch (err) {
                res.status(500).send('access denied')
            }
