@@ -35,6 +35,18 @@ class PostController {
             })
         }
     }
+    async getOnePost(req, res) {
+        try{
+            const id = req.query.id
+            const post = await db.query('SELECT * FROM post where id = $1', [id])
+            res.json(post.rows[0])
+        } catch(e) {
+            res.status(500).json({
+                message: 'Не удалось получить пост'
+            })
+        }
+    }
+
     async  deletePost(req, res) {
         try{
             const id = req.query.id
@@ -48,7 +60,7 @@ class PostController {
     }
     async  updatePost(req, res) {
         try{
-            const {id, title, content} = req.body
+            const {id, title, content} = req.body.data
             const post = await db.query(
                 'UPDATE post set title = $1, content = $2 where id = $3 RETURNING *',
                 [title, content, id])
@@ -60,16 +72,16 @@ class PostController {
         }
     }
     async  uploadImage(req, res) {
-        console.log('fired')
-        try{
-          return  res.json({
-                url: `/uploads/${req.file.originalname}`
-            })
-        } catch(e) {
-            res.status(500).json({
-                message: 'Не удалось загрузить картинку'
-            })
-        }
+console.log('fired')
+        // try{
+        //   return  res.json({
+        //         url: `/uploads/${req.file.originalname}`
+        //     })
+        // } catch(e) {
+        //     res.status(500).json({
+        //         message: 'Не удалось загрузить картинку'
+        //     })
+        // }
     }
 
 }
