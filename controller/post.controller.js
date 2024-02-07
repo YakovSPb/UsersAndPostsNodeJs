@@ -3,8 +3,8 @@ const db = require("../db");
 class PostController {
     async createPost(req, res){
         try{
-            const {title, content, userId} = req.body
-            const newPost = await db.query(`INSERT INTO post (title, content, user_id) values($1, $2, $3) RETURNING *`, [title, content, userId])
+            const {title, content, url, userId} = req.body
+            const newPost = await db.query(`INSERT INTO post (title, content, url,  user_id) values($1, $2, $3, $4) RETURNING *`, [title, content, url, userId])
             res.json(newPost.rows[0])
         } catch(e){
             res.status(500).json({
@@ -72,16 +72,15 @@ class PostController {
         }
     }
     async  uploadImage(req, res) {
-console.log('fired')
-        // try{
-        //   return  res.json({
-        //         url: `/uploads/${req.file.originalname}`
-        //     })
-        // } catch(e) {
-        //     res.status(500).json({
-        //         message: 'Не удалось загрузить картинку'
-        //     })
-        // }
+        try{
+          return  res.json({
+                url: `/uploads/${req.file.originalname}`
+            })
+        } catch(e) {
+            res.status(500).json({
+                message: 'Не удалось загрузить картинку'
+            })
+        }
     }
 
 }

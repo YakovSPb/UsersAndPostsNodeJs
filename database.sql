@@ -16,6 +16,7 @@ create TABLE post(
     id SERIAL PRIMARY KEY,
     title VARCHAR(255),
     content TEXT,
+    url VARCHAR(255),
     user_id INTEGER,
     FOREIGN KEY (user_id) REFERENCES person (id)
 );
