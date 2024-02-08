@@ -15,8 +15,19 @@ class PostController {
 
     async getPostsByUser(req, res) {
         try{
+            const page = req.query.page || 1;
+            const pageSize = 6;
+            const offset = (page - 1) * pageSize;
+            const result = await db.query(
+                'SELECT * FROM post ORDER BY id LIMIT $1 OFFSET $2',
+                [pageSize, offset]
+            );
             const posts = await db.query('SELECT * from post')
-            res.json(posts.rows)
+            const data = {
+                posts: result.rows,
+                count: posts.rows.length
+            }
+            res.json(data)
         } catch(e) {
             res.status(500).json({
                 message: 'Не удалось получить статьи'
