@@ -10,7 +10,7 @@ const PORT = process.env.PORT || 8080
 const index = express()
 index.use(cors())
 index.use("/", (req, res) => {
-    res.send("Server is running.")
+    res.send("Server is running!")
 })
 index.use(express.json())
 index.use('/api', userRouter)
