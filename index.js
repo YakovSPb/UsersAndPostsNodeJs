@@ -7,13 +7,13 @@ const cookieParser = require('cookie-parser')
 const cors = require('cors')
 
 const PORT = process.env.PORT || 8080
-const app = express()
-app.use(cors())
-app.use(express.json())
-app.use('/api', userRouter)
-app.use('/api', postRouter)
-app.use('/api', authRouter)
-app.use(cookieParser())
-app.use(express.static('public'));
+const index = express()
+index.use(cors())
+index.use(express.json())
+index.use('/api', userRouter)
+index.use('/api', postRouter)
+index.use('/api', authRouter)
+index.use(cookieParser())
+index.use(express.static('public'));
 
-app.listen(PORT, )
+index.listen(PORT, )
